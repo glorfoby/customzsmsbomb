@@ -1,4 +1,4 @@
-#GL0RFOBY
+'''GL0RFOBY'''
 
 Bu en son yayınlanan mysmsbomb dosyasının customized halidir 
 <h2>Kurulum</h2>
