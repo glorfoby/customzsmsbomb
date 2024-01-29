@@ -4,30 +4,57 @@ from os import system
 from sms import SendSms
 from concurrent.futures import ThreadPoolExecutor, wait
 
-def giris_kontrol():
-    print("Giriş Yapın")
+import tkinter as tk
+from tkinter import messagebox
 
+def on_closing():
+    pass  # Pencereyi kapatma işlemini geçersiz kıl
 
-kullanici_adi = input("Kullanıcı Adı: ")
-sifre = input("Şifre: ")
-giris_kontrol()
-if kullanici_adi == "glorfobydev" and sifre == "XqmEtCljnl":
-     print("Başarılı Giriş")
-else:
-           print("Hatalı Kullanıcı Adı veya Şifre")
-           exit()
+def login():
+    if username_entry.get() == "glorfobydev" and password_entry.get() == "XqmEtCljnl":
+        messagebox.showinfo("Başarılı Giriş", "Başarıyla giriş yaptınız!")
+        window.destroy()  # Başarılı girişten sonra Tkinter penceresini kapat
+    else:
+        messagebox.showerror("Hatalı Giriş", "Kullanıcı adı veya şifre yanlış!")
+        username_entry.delete(0, tk.END)
+        password_entry.delete(0, tk.END)
 
+# Ana pencereyi oluştur
+window = tk.Tk()
+window.title("Giriş")
+
+# Çarpı tuşunu devre dışı bırakma
+window.protocol("WM_DELETE_WINDOW", on_closing)
+
+username_label = tk.Label(window, text="Kullanıcı Adı:")
+username_label.pack(padx=20, pady=5)
+username_entry = tk.Entry(window)
+username_entry.pack(padx=20, pady=5)
+
+password_label = tk.Label(window, text="Şifre:")
+password_label.pack(padx=20, pady=5)
+password_entry = tk.Entry(window, show="*")
+password_entry.pack(padx=20, pady=5)
+
+login_button = tk.Button(window, text="Giriş Yap", command=login)
+login_button.pack(pady=10)
+
+# Pencereyi göster
+window.mainloop()
+
+import sys
 import time
 
-def yuklenme_cubugu(oran):
-    dolu_karakterler = oran * 10
-    bos_karakterler = (10 - oran) * ' '
-    print(f"[{dolu_karakterler}{bos_karakterler}] {oran * 10}%")
+def progress_bar(length, delay):
+    for i in range(length + 1):
+        bar = '=' * i + ' ' * (length - i)
+        sys.stdout.write('\r[' + bar + '] ' + str(i * 10) + '%')
+        sys.stdout.flush()
+        time.sleep(delay)
+    print()  # İşlem tamamlandığında bir alt satıra geçmek için
 
-for i in range(11):
-    yuklenme_cubugu(i)
-    time.sleep(0.5)
-
+# Örnek kullanım
+progress_bar(10, 0.5)  # Uzunluk: 10, Gecikme: 0.5 saniye
 
 
 servisler_sms = []
@@ -37,13 +64,12 @@ for attribute in dir(SendSms):
         if attribute.startswith('__') == False:
             servisler_sms.append(attribute)
 
-while 1:
+while True:
     system("cls||clear")
 
-
     print("""{}
-          
-  
+
+
            ###                         ###             ###
             ##                        ## ##             ##
   ### ##    ##      ####    ######     #       ####     ##      ##  ##
@@ -52,7 +78,7 @@ while 1:
   #####     ##     ##  ##    ##       ##      ##  ##    ##  ##   #####
      ##    ####     ####    ####     ####      ####    ######       ##
  #####                                                          #####
-   
+
     Sms: {}           {}by {}@gl0rfoby 
     """.format(Fore.LIGHTYELLOW_EX, len(servisler_sms), Style.RESET_ALL, Fore.LIGHTBLACK_EX))
     try:
